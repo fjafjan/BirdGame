@@ -45,34 +45,13 @@ class Board:
     def draw_bonus_card(self, bonus_card: BonusCard):
         self._bonus_cards.append(bonus_card)
 
-
-
-    def playable(self, bird_card: Card):
-        """
-        If a bird card is playable in the given board state.
-        TODO maybe should change this so it returns the possible habitats!
-        """
-        ## Do we have enough food?
-        if not bird_card.cost.within_budget(self._food_tokens):
-            print("Too expensive, we cannot afford it")
-            return False
-        ## Is there space in any habitat?
-        # habitats = [Habitat.FIELD, Habitat.FOREST, Habitat.OCEAN] if bird_card.possible_habitats == Habitat.ANY
-        ## TODO replace with a list of habitats in the card constructor
-        egg_costs = [0] * len(bird_card.possible_habitats)
-        for index, habitat in enumerate(bird_card.possible_habitats):
-            if len(self.habitat_slots[habitat]) < MAX_BIRDS_PER_HABITAT:
-                print(f"Playable in {habitat}")
-                egg_costs[index] = egg_cost_from_slot(len(self.habitat_slots[habitat]))
-        ## TODO check for eggs!
-        return True
-
     def total_eggs(self) -> int:
         """Counts the total number of eggs on birds"""
         total_eggs = 0
         for habitat in self.habitat_slots:
             for bird in self.habitat_slots[habitat]:
                 total_eggs += bird.eggs()
+        return total_eggs
 
     def bird_cards(self) -> List[Card]:
         """
@@ -84,8 +63,37 @@ class Board:
         """
         Returns a list of bonus cards currently in your hand
         """
-# Do we want this to be a class?
-## So the way to do this, has to be to get a working super simple demo as quickly as
-## possible.
 
-## TODO Make this part of some other component!
+    def playable_birds(self) -> List[Card]:
+        """
+        Returns all playable birds in yor hand
+        """
+        playable_birds = []
+        eggs = self.total_eggs()
+        ## Do we have enough food?
+        for bird_card in self._hand:
+            if not bird_card.cost.within_budget(self._food_tokens):
+                print("Too expensive, we cannot afford it")
+                continue
+            ## Is there space in any habitat? And if so do we have enough eggs.
+            egg_costs = [0] * len(bird_card.possible_habitats)
+            for index, habitat in enumerate(bird_card.possible_habitats):
+                if len(self.habitat_slots[habitat]) < MAX_BIRDS_PER_HABITAT:
+                    egg_costs[index] = egg_cost_from_slot(len(self.habitat_slots[habitat]))
+                    if egg_costs[index] <= eggs:
+                        print(f"Playable in {habitat}")
+                        playable_birds.append(bird_card)                    
+            ## TODO Return the habitats we can play it in.
+        return playable_birds
+
+    def eggable_birds(self) -> List[Card]:
+        """
+        Returns all birds with at least one free egg slot
+        """
+        eggable_birds = []
+        for habitat in self.habitat_slots:
+            for bird in self.habitat_slots[habitat]:
+                if bird.has_egg_slot():
+                    eggable_birds.append(bird)
+        return eggable_birds
+

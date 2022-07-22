@@ -27,15 +27,20 @@ class Card:
         else:
             self.possible_habitats = possible_habitats
 
-    def lay_eggs(self, num_eggs: int) -> bool:
+    def lay_egg(self) -> None:
         """
-        Lays a number of eggs on this bird. Returns false if there is not 
-        sufficient egg capacity
+        Lays an egg on this bird. Raises exception if there is no free slot.
         """
-        if self.eggs + num_eggs > self.egg_capacity:
+        if self.eggs == self.egg_capacity:
+            raise Exception("Cannot lay egg, already at full capacity")
+        self.eggs += 1
+
+    def has_egg_slot(self) -> bool:
+        if self.eggs <= self.egg_capacity:
+            return True
+        else:
             return False
-        self.eggs += num_eggs
-        return True
+
 
     def eggs(self) -> int:
         """The number of eggs currently on this bird"""
