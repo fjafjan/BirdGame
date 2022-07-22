@@ -5,11 +5,11 @@ from Types import FoodTypes, Action, NestTypes, Habitat
 
 def init_deck() -> List[Card]:
     deck = [
-        Card("Pidgeon", [FoodTypes.GRAIN, FoodTypes.GRAIN], NestTypes.GROUND, Habitat.ANY),
-        Card("Raven", [FoodTypes.ANY, FoodTypes.FRUIT], NestTypes.BIG_STICKS, Habitat.ANY),
-        Card("Seagull", [FoodTypes.FISH, FoodTypes.FISH], NestTypes.BIG_STICKS, Habitat.OCEAN),
-        Card("Hummingbird", [FoodTypes.FRUIT], NestTypes.CAVITY, Habitat.FOREST),
-        Card("Parkers Owl", [FoodTypes.RODENT, FoodTypes.INVETEBRATE], NestTypes.CAVITY, Habitat.FOREST)
+        Card("Pidgeon", [FoodTypes.GRAIN, FoodTypes.GRAIN], NestTypes.GROUND, [Habitat.ANY], 6),
+        Card("Raven", [FoodTypes.ANY, FoodTypes.FRUIT], NestTypes.BIG_STICKS, [Habitat.ANY], 3),
+        Card("Seagull", [FoodTypes.FISH, FoodTypes.FISH], NestTypes.BIG_STICKS, [Habitat.OCEAN], 4),
+        Card("Hummingbird", [FoodTypes.FRUIT], NestTypes.CAVITY, [Habitat.FOREST], 3),
+        Card("Parkers Owl", [FoodTypes.RODENT, FoodTypes.INVETEBRATE], NestTypes.CAVITY, [Habitat.FOREST], 6)
     ]
     return deck
 

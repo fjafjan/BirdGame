@@ -27,6 +27,9 @@ class Wingspan:
         for index, bird_card in enumerate(your_hand):
             print(f"Bird {index}: {bird_card}")
 
+        ## So what we need in order to make this testable?
+        ## I guess we want to move all the logic away from this function, make a parsing 
+        ## function so we don't do the same parsing multiple times. 
         ## Todo move this to separate function, but of course should be replaced entirely.
         chosen_birds = input()
         kept_birds = []
@@ -44,13 +47,14 @@ class Wingspan:
             print("invalid argument")
             exit(1)
         your_hand = [your_hand[i] for i in  kept_birds]
-        num_food_to_keep = {5-len(kept_birds)}
+        num_food_to_keep = 5-len(kept_birds)
         print("Kept birds are:", your_hand)
         print(f"Select {num_food_to_keep} food to keep")
         for index, food_token in enumerate(your_food):
             print(f"Food {index}: {food_token}")
         chosen_food = input()
         chosen_food = chosen_food.strip().split(",")
+        chosen_food = [int(i) for i in chosen_food]
         if len(chosen_food) != num_food_to_keep:
             print(f"Chose {len(chosen_food)} insteadof {num_food_to_keep}")
         your_food = [your_food[i] for i in chosen_food]
