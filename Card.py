@@ -14,7 +14,8 @@ class Card:
         cost: List[FoodTypes], 
         nest: NestTypes, 
         possible_habitats: List[Habitat],
-        egg_capacity: int):
+        egg_capacity: int,
+        activation_func: function = None):
         self._name = name
         self._cost = FoodCost(cost)
         self._nest = nest
@@ -22,6 +23,8 @@ class Card:
         self._eggs = 0
         self._food = []
         self._cards = []
+        self._activation_func = activation_func
+            
         if Habitat.ANY in possible_habitats:
             self._possible_habitats = [Habitat.FIELD, Habitat.FOREST, Habitat.OCEAN]
         else:
