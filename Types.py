@@ -12,7 +12,8 @@ class NestTypes(Enum):
     ANY = 0 
     GROUND = 1
     CAVITY = 2
-    BIG_STICKS = 3
+    BOWL = 3
+    PLATFORM = 3
 
 MAX_BIRDS_PER_HABITAT = 6
 

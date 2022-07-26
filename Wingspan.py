@@ -3,6 +3,7 @@ from typing import List
 from GameSetup import init_deck, init_food, init_actions
 from Board import Board
 from Card import Card
+from Player import Player
 from Types import FoodTypes, Action
 
 ## Utility function
@@ -80,15 +81,28 @@ class Wingspan:
 
 
         if possible_actions[chosen_action] == Action.PLAY_BIRD:
-            playable_birds = your_board.playable_birds
+            playable_birds = your_board.playable_birds()
             if len(playable_birds) == 0:
                 print("No plabale birds")
             else:
                 print("Select which bird to play: Playable birds are")
                 for i, bird in enumerate(playable_birds):
-                    print("f#{i} : {bird}")
+                    print(f"#{i} : {bird}")
                 chosen_bird = int(self.input_function())
-
+                for i, bird in enumerate(playable_birds):
+                    if i == chosen_bird:
+                        chosen_bird = bird
+                possible_habitats = playable_birds[chosen_bird]
+                if len(possible_habitats) > 1:
+                    print(f"Select which habitat to play {chosen_bird._name}:")
+                    for i, habitat in enumerate(possible_habitats):
+                        print(f"#{i}: {habitat}")
+                    chosen_habitat = possible_habitats[int(self.input_function())]
+                else:
+                    chosen_habitat = possible_habitats[0]
+                print(f"Playing {chosen_bird} in {chosen_habitat}")
+                ## TODO add a proper player here. 
+                your_board.play_bird(chosen_bird, chosen_habitat, Player())
             # for index, bird in your_hand:
             #     if bird.is_playable():
             #         print(""

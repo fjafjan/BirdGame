@@ -15,7 +15,7 @@ class Card:
         nest: NestTypes, 
         possible_habitats: List[Habitat],
         egg_capacity: int,
-        activation_func: function = None):
+        activation_func = None):
         self._name = name
         self._cost = FoodCost(cost)
         self._nest = nest

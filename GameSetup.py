@@ -3,6 +3,9 @@ from typing import List
 from Card import Card
 from Types import FoodTypes, Action, NestTypes, Habitat
 
+## I guess we should define the powers outside as functions, and then pair them with the birds. 
+## Since a number of birds share the same power. 
+
 def init_deck() -> List[Card]:
     deck = [
         Card("Pigeon", [FoodTypes.GRAIN, FoodTypes.GRAIN], NestTypes.GROUND, [Habitat.ANY], 6), # Lay an egg on any bird.

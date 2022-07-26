@@ -1,9 +1,9 @@
-from typing import List
+from typing import List, Dict
 
 from Types import FoodTypes, Habitat, MAX_BIRDS_PER_HABITAT
 from Card import Card
 from FoodCost import FoodCost
-
+from Player import Player
 class BonusCard:
     def __init__(self) -> None:
         """TODO"""
@@ -64,11 +64,11 @@ class Board:
         Returns a list of bonus cards currently in your hand
         """
 
-    def playable_birds(self) -> List[Card]:
+    def playable_birds(self) -> Dict[Card, Habitat]:
         """
         Returns all playable birds in yor hand
         """
-        playable_birds = []
+        playable_birds = {}
         eggs = self.total_eggs()
         ## Do we have enough food?
         for bird_card in self._hand:
@@ -81,11 +81,26 @@ class Board:
                 if len(self.habitat_slots[habitat]) < MAX_BIRDS_PER_HABITAT:
                     egg_costs[index] = egg_cost_from_slot(len(self.habitat_slots[habitat]))
                     if egg_costs[index] <= eggs:
+                        if bird_card not in playable_birds:
+                            playable_birds[bird_card] = []
+                        playable_birds[bird_card].append(habitat)
                         print(f"Playable in {habitat}")
-                        playable_birds.append(bird_card)                    
+                        # playable_birds.append(bird_card)                    
             ## TODO Return the habitats we can play it in.
         return playable_birds
 
+    def play_bird(self, bird_card: Card, habitat: Habitat, player: Player):
+        """
+        Plays the bird card in the chosen habitat. Will throw an exception if there
+        is no room.
+        """
+        if len(self.habitat_slots[habitat]) + 1 >= MAX_BIRDS_PER_HABITAT:
+            raise Exception(f"Habitat {habitat} is already full!")
+        egg_cost = egg_cost_from_slot(len(self.habitat_slots[habitat]))
+        if egg_cost > 0:
+            player.choose_eggs_to_spend(egg_cost)
+        self.habitat_slots[habitat].append(bird_card)
+        
     def eggable_birds(self) -> List[Card]:
         """
         Returns all birds with at least one free egg slot
