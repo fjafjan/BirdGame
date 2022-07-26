@@ -15,28 +15,36 @@ class Card:
         nest: NestTypes, 
         possible_habitats: List[Habitat],
         egg_capacity: int):
-        self.name = name
-        self.cost = FoodCost(cost)
-        self.nest = nest
-        self.egg_capacity = egg_capacity
-        self.eggs = 0
-        self.food = []
-        self.cards = []
+        self._name = name
+        self._cost = FoodCost(cost)
+        self._nest = nest
+        self._egg_capacity = egg_capacity
+        self._eggs = 0
+        self._food = []
+        self._cards = []
         if Habitat.ANY in possible_habitats:
-            self.possible_habitats = [Habitat.FIELD, Habitat.FOREST, Habitat.OCEAN]
+            self._possible_habitats = [Habitat.FIELD, Habitat.FOREST, Habitat.OCEAN]
         else:
-            self.possible_habitats = possible_habitats
+            self._possible_habitats = possible_habitats
 
     def lay_egg(self) -> None:
         """
         Lays an egg on this bird. Raises exception if there is no free slot.
         """
-        if self.eggs == self.egg_capacity:
+        if self._eggs == self._egg_capacity:
             raise Exception("Cannot lay egg, already at full capacity")
-        self.eggs += 1
+        self._eggs += 1
+    
+    def remove_egg(self) -> None:
+        """
+        Removes an egg from this card. Raises an exception if there is no egg to remove
+        """
+        if self._eggs <= 0:
+            raise Exception(f"No eggs to remove from {self}")
+        self._eggs -= 1
 
     def has_egg_slot(self) -> bool:
-        if self.eggs <= self.egg_capacity:
+        if self._eggs <= self.egg_capacity:
             return True
         else:
             return False
@@ -44,17 +52,17 @@ class Card:
 
     def eggs(self) -> int:
         """The number of eggs currently on this bird"""
-        return self.eggs
+        return self._eggs
 
     def cached_food(self) -> List[FoodTypes]:
         """Returns all food cached on this card"""
-        return self.cached_food
+        return self._cached_food
 
     def tucked_cards(self) -> List:
         """Returns all cards tucked under this card"""
-        return self.tucked_cards
+        return self._tucked_cards
 
     def __str__(self):
-        return f"{self.name}: {self.cost}, {self.nest}, {self.possible_habitats}"
+        return f"{self._name}: {self._cost}, {self._nest}, {self._possible_habitats}"
 
 

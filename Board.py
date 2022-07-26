@@ -72,12 +72,12 @@ class Board:
         eggs = self.total_eggs()
         ## Do we have enough food?
         for bird_card in self._hand:
-            if not bird_card.cost.within_budget(self._food_tokens):
+            if not bird_card._cost.within_budget(self._food_tokens):
                 print("Too expensive, we cannot afford it")
                 continue
             ## Is there space in any habitat? And if so do we have enough eggs.
-            egg_costs = [0] * len(bird_card.possible_habitats)
-            for index, habitat in enumerate(bird_card.possible_habitats):
+            egg_costs = [0] * len(bird_card._possible_habitats)
+            for index, habitat in enumerate(bird_card._possible_habitats):
                 if len(self.habitat_slots[habitat]) < MAX_BIRDS_PER_HABITAT:
                     egg_costs[index] = egg_cost_from_slot(len(self.habitat_slots[habitat]))
                     if egg_costs[index] <= eggs:
