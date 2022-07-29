@@ -56,7 +56,7 @@ class Deck:
         """
         for index, card in enumerate(self._face_up):
             if card == None:
-                self._face_up[index] = self.draw_cards(1)
+                self._face_up[index] = self.draw_cards(1)[0]
     
     def reset_face_up(self) -> None:
         """

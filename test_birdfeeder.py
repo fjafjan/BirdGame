@@ -1,6 +1,6 @@
 from Player import Player
-from Types import FoodTypes
-from Birdfeeder import BirdFeeder, BirdFeederDice
+from Types import FoodTypes, BirdFeederDice
+from Birdfeeder import BirdFeeder
 
 
 import pytest
@@ -8,7 +8,7 @@ import pytest
 class MockPlayer(Player):
     def __init__(self) -> None:
         super().__init__()
-    def choose_foodtype(self) -> FoodTypes:
+    def choose_grain_or_invertebret(self) -> FoodTypes:
         return FoodTypes.GRAIN
 
 

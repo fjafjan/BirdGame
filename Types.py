@@ -8,6 +8,14 @@ class FoodTypes(Enum):
     RODENT = 4
     FRUIT = 5
 
+class BirdFeederDice(Enum):
+    GRAIN = 0
+    INVETEBRET = 1
+    GRAIN_OR_INVETEBRET = 2
+    FISH = 3
+    RODENT = 4
+    FRUIT = 5
+
 class NestTypes(Enum):
     ANY = 0 
     GROUND = 1

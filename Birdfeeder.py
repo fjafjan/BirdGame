@@ -9,15 +9,8 @@ from typing import List
 import random
 import time
 
-from Types import FoodTypes
+from Types import FoodTypes, BirdFeederDice
 from Player import Player
-class BirdFeederDice(Enum):
-    GRAIN = 0
-    INVETEBRET = 1
-    GRAIN_OR_INVETEBRET = 2
-    FISH = 3
-    RODENT = 4
-    FRUIT = 5
 
 class BirdFeeder:
     def __init__(self) -> None:
@@ -29,7 +22,7 @@ class BirdFeeder:
         print("Dice are:", self._dice)
 
     def dice(self) -> List[BirdFeederDice]:
-        return self._dice
+        return self._dice.copy()
     
     @staticmethod
     def birdfeeder_dice_to_foodtype(die: BirdFeederDice) -> FoodTypes:
@@ -55,7 +48,7 @@ class BirdFeeder:
                 self._dice.remove(die)
                 print(f"Removed {die}")
                 if die == BirdFeederDice.GRAIN_OR_INVETEBRET:
-                    return player.choose_foodtype()
+                    return player.choose_grain_or_invertebret()
                 else:
                     return self.birdfeeder_dice_to_foodtype(die)
                 break

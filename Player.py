@@ -1,10 +1,9 @@
 from Card import Card
+from Types import Action, FoodTypes, Habitat, BirdFeederDice
 
 from typing import Dict, List
 
-from Types import Action, FoodTypes
 
-# from Birdfeeder import BirdFeederDice
 ## This is the operative class, i.e. the person making decisions. 
 ## So any request for choice should be delegated to a player class. 
 
@@ -19,6 +18,18 @@ from Types import Action, FoodTypes
 
 class Player:
     def __init__(self) -> None:
+        pass
+    
+    def initialize(self, board: object):
+        """
+        Intialize your game board with the chosen birds and food. 
+        """
+        pass
+
+    def board(self):
+        """
+        Return board of the player.
+        """
         pass
 
     def choose_starting_birds(self, starting_hand: List[Card]) -> List[Card]:
@@ -45,6 +56,12 @@ class Player:
         """
         pass
 
+    def choose_bird_to_play(self, playable_birds: Dict[Card, Habitat]):
+        """
+        Choose what playable bird to play.
+        """
+        pass
+
     def choose_card_to_draw(self, birds_in_shop: List[Card]) -> Card:
         """
         Choose from the cards in the 'shop'
@@ -57,7 +74,13 @@ class Player:
         """
         pass
 
-    def choose_foodtype(self) -> FoodTypes:
+    def choose_food_dice(self, bird_feeder_dice: List[BirdFeederDice], num_dice: int) -> List[BirdFeederDice]:
+        """
+        Choose which bird feeder dice to be used for getting food
+        """
+        pass
+
+    def choose_grain_or_invertebret(self) -> FoodTypes:
         """
         Choose wether to pick grain or invertebret
         """

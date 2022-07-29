@@ -39,6 +39,9 @@ class Board:
             raise Exception(f"""Played should start with 5 total birds cards and food tokens, 
             not {len(self._food_tokens)} bird cards and {len(self._hand)} food token""")
 
+    def gain_food(self, food: FoodTypes):
+        self._food_tokens.append(food)
+
     def draw_card(self, bird_card: Card):
         self._hand.append(bird_card)
 
@@ -58,6 +61,12 @@ class Board:
         Returns a list of bird cards currently in your hand.
         """
         return self._hand
+
+    def birds_in_habitat(self, habitat: Habitat) -> List[Card]:
+        """
+        Returns a list of all birds in the requested habitat
+        """
+        return self.habitat_slots[habitat].copy()
 
     def bonus_cards() -> List[BonusCard]:
         """
@@ -100,6 +109,8 @@ class Board:
         if egg_cost > 0:
             player.choose_eggs_to_spend(egg_cost)
         self.habitat_slots[habitat].append(bird_card)
+        ## Pay the food as well!
+        
         
     def eggable_birds(self) -> List[Card]:
         """

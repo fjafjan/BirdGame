@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Dict, Set
+from typing import Callable, List, Dict, Set
 
 from Types import *
 from FoodCost import FoodCost
@@ -15,7 +15,7 @@ class Card:
         nest: NestTypes, 
         possible_habitats: List[Habitat],
         egg_capacity: int,
-        activation_func = None):
+        activation_func: Callable = None):
         self._name = name
         self._cost = FoodCost(cost)
         self._nest = nest
@@ -29,6 +29,14 @@ class Card:
             self._possible_habitats = [Habitat.FIELD, Habitat.FOREST, Habitat.OCEAN]
         else:
             self._possible_habitats = possible_habitats
+
+    def activate(self):
+        """
+        Activates this card if there is an activation function.
+        TODO Determine what inputs this function will need!
+        """
+        if self._activation_func is not None:
+            self._activation_func()
 
     def lay_egg(self) -> None:
         """

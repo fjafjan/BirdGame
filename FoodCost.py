@@ -37,4 +37,9 @@ class FoodCost:
         return available_food >= any_missing
 
     def __str__(self):
-        return f"{self.cost}"
+        ret = [f"{food} : {self.cost[food]}" for food in self.cost if self.cost[food] > 0]
+        ## TODO Replace this with an opposite to split!
+        x = ""
+        for r in ret:
+            x += r
+        return x
