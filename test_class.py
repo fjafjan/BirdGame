@@ -13,7 +13,7 @@ from GameSetup import init_deck, init_food
 def full_deck() -> List[Card]:
     """The entire deck (currently only five cards)"""
     return init_deck().draw_cards(5)
-    
+
 @pytest.fixture
 def raven(full_deck) -> Card:
     """Returns the raven as a sample card."""

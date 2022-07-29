@@ -16,7 +16,7 @@ class MockPlayer(Player):
 def birdfeeder() -> BirdFeeder:
     ret = BirdFeeder()
     ret._dice = [BirdFeederDice.FISH, BirdFeederDice.FRUIT, BirdFeederDice.FRUIT, BirdFeederDice.GRAIN_OR_INVETEBRET, BirdFeederDice.FISH]
-    return ret 
+    return ret
 
 @pytest.fixture
 def player() -> MockPlayer:
@@ -83,4 +83,3 @@ def test_dice_outside_birdfeeder(birdfeeder: BirdFeeder, player: MockPlayer):
     birdfeeder.reroll()
     dice_outside = birdfeeder.roll_dice_not_in_birdfeeder()
     assert len(dice_outside) == 0
-

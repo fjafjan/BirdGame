@@ -1,4 +1,4 @@
-from scipy import rand
+# from scipy import rand
 from Card import Card
 
 from typing import List
@@ -6,12 +6,12 @@ import random
 
 class Deck:
     """
-    Simple class for abstracting the deck. 
+    Simple class for abstracting the deck.
     """
     def __init__(self, cards: List[Card]) -> None:
         self._cards = cards
         self._discard_pile = []
-        self._face_up = []    
+        self._face_up = []
 
     def initialize(self):
         self._face_up = [self._cards.pop(0) for i in range(3)]
@@ -45,7 +45,7 @@ class Deck:
         """Draws a card from the face-up cards"""
         if card not in self._face_up:
             raise Exception(f"{card} not among the face up cards!")
-        else: 
+        else:
             i = self._face_up.index(card)
             self._face_up[i] = None
         return card
@@ -57,7 +57,7 @@ class Deck:
         for index, card in enumerate(self._face_up):
             if card == None:
                 self._face_up[index] = self.draw_cards(1)[0]
-    
+
     def reset_face_up(self) -> None:
         """
         Between rounds, the face up cards are replaced.
@@ -65,4 +65,3 @@ class Deck:
         self.discard_cards(self._face_up)
         self._face_up.clear()
         self._face_up = self.draw_cards(3)
-            

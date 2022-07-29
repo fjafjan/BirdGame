@@ -35,14 +35,14 @@ def test_sufficient_foodcost(simple_cost):
     """Validate that a simple sufficient foodcost is seen as affordable"""
     sufficent_food = [FoodTypes.FISH, FoodTypes.INVETEBRATE, FoodTypes.FISH]
     assert simple_cost.within_budget(sufficent_food)
- 
+
 def test_replacement_foodcost(simple_cost):
-    """Validate that we correct show that we can use any two food as replacement""" 
+    """Validate that we correct show that we can use any two food as replacement"""
     available_replacement = [FoodTypes.INVETEBRATE, FoodTypes.INVETEBRATE, FoodTypes.INVETEBRATE, FoodTypes.INVETEBRATE]
     assert simple_cost.within_budget(available_replacement)
 
 def test_insufficient_replacement_foodcost(simple_cost):
-    """Validate that we correct show that we can use any two food as replacement""" 
+    """Validate that we correct show that we can use any two food as replacement"""
     available_replacement = [FoodTypes.GRAIN, FoodTypes.INVETEBRATE, FoodTypes.INVETEBRATE]
     assert not simple_cost.within_budget(available_replacement)
 

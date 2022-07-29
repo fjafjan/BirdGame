@@ -4,12 +4,12 @@ from Types import FoodTypes
 
 class FoodCost:
     """
-    Describes a comparable class of a food cost. 
+    Describes a comparable class of a food cost.
     """
-    def __init__(self, cost: List[FoodTypes]=[]):
+    def __init__(self, cost: List[FoodTypes]):
         self.cost = {
             FoodTypes.ANY: 0,
-            FoodTypes.INVETEBRATE: 0, 
+            FoodTypes.INVETEBRATE: 0,
             FoodTypes.GRAIN : 0,
             FoodTypes.FISH : 0,
             FoodTypes.RODENT : 0,
@@ -18,7 +18,7 @@ class FoodCost:
         for food_type in cost:
             self.cost[food_type] += 1
 
-    def within_budget(self, food: List[FoodTypes]=[]):
+    def within_budget(self, food: List[FoodTypes]):
         """
         Checks if a list of foods can afford this foodcost.
         """

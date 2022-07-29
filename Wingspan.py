@@ -3,11 +3,10 @@ from CommandlinePlayer import CommandlinePlayer
 
 from GameSetup import init_deck, init_food, init_actions
 from Board import Board
-from Card import Card
 from Player import Player
 from Birdfeeder import BirdFeeder
 # from CommandlinePlayer import CommandlinePlayer
-from Types import FoodTypes, Action, Habitat
+from Types import Action, Habitat
 
 ## Utility function
 # def request_set(input_list: List, message_str: str):
@@ -53,8 +52,8 @@ class Wingspan:
         # Go in reverse order
         birds_in_habitat.reverse()
         for bird in birds_in_habitat:
-            print(f"Trying to activate {bird._name}")
-            bird.activate()
+            print(f"Trying to activate {bird.name()}")
+            bird.activate(board, player)
 
     def play_bird(self, player: Player, board: Board) -> None:
         """
@@ -73,13 +72,14 @@ class Wingspan:
         """
         food_dice = player.choose_food_dice(self._bird_feeder.dice(), 1)
         gained_food = self._bird_feeder.choose_dice(food_dice[0], player)
+        board.gain_food(gained_food)
         # gained_food = [self._bird_feeder.choose_dice(die, player) for die in food_dice]
         # [board.gain_food(food) for food in gained_food]
         self.activate_birds(player, board, Habitat.FOREST)
 
     def lay_eggs(self, player: Player, board: Board) -> None:
         num_eggs = 2
-        for i in range(num_eggs):
+        for _ in range(num_eggs):
             ## Would be nice if we had the option to lay multiple eggs here realistically.
             eggable_birds = board.eggable_birds()
             chosen_bird = player.choose_bird_to_lay_egg(eggable_birds)
@@ -102,8 +102,8 @@ class Wingspan:
     def play(self):
         possible_actions = init_actions()
         ## Now we are actually in the game phase!
-        ## We do not yet have the concept of a round, or turn. Lets just have an infinite 
-        ## loop for now. 
+        ## We do not yet have the concept of a round, or turn. Lets just have an infinite
+        ## loop for now.
         while True:
             for player in self._players:
                 board = player.board()
@@ -117,7 +117,7 @@ class Wingspan:
                 elif action == Action.DRAW_CARDS:
                     self.draw_cards(player, board)
 
-                
+
 
 
 

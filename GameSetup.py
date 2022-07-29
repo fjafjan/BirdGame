@@ -4,16 +4,16 @@ from Card import Card
 from Types import FoodTypes, Action, NestTypes, Habitat
 from Deck import Deck
 
-## I guess we should define the powers outside as functions, and then pair them with the birds. 
-## Since a number of birds share the same power. 
+## I guess we should define the powers outside as functions, and then pair them with the birds.
+## Since a number of birds share the same power.
 
 def init_deck() -> Deck:
     cards = [
         Card("Pigeon", [FoodTypes.GRAIN, FoodTypes.GRAIN], NestTypes.GROUND, [Habitat.ANY], 6), # Lay an egg on any bird.
         Card("Raven", [FoodTypes.ANY, FoodTypes.FRUIT], NestTypes.PLATFORM, [Habitat.ANY], 3), # the worse raven power, i.e. sack one egg, gain 1 food.
         Card("Seagull", [FoodTypes.FISH, FoodTypes.FISH], NestTypes.PLATFORM, [Habitat.OCEAN], 4), # Draw an extra card?
-        Card("Hummingbird", [FoodTypes.FRUIT], NestTypes.CAVITY, [Habitat.FOREST], 2), # Each player gains 1 dice from the birdfeeder.  
-        Card("Parkers Owl", [FoodTypes.RODENT, FoodTypes.INVETEBRATE], NestTypes.CAVITY, [Habitat.FOREST], 6), # Decide what it does :D 
+        Card("Hummingbird", [FoodTypes.FRUIT], NestTypes.CAVITY, [Habitat.FOREST], 2), # Each player gains 1 dice from the birdfeeder.
+        Card("Parkers Owl", [FoodTypes.RODENT, FoodTypes.INVETEBRATE], NestTypes.CAVITY, [Habitat.FOREST], 6), # Decide what it does :D
         Card("Painted Whitestart", [FoodTypes.INVETEBRATE], NestTypes.GROUND, [Habitat.FOREST], 3), # Gain 1 invertebret from the supply
         Card("Baltimore Oriole", [FoodTypes.FRUIT, FoodTypes.FRUIT, FoodTypes.INVETEBRATE], NestTypes.ANY, [Habitat.FOREST], 2), # All players gain 1 fruit from the supply
         Card("Grasshopper Sparrow", [FoodTypes.INVETEBRATE, FoodTypes.GRAIN], NestTypes.GROUND, [Habitat.FIELD], 2), # SHOULD BE EITHER OR FOOD. Lay 1 egg on any bird.

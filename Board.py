@@ -1,15 +1,24 @@
+"""
+A board class which corresponds to all resources owned and managed by
+a single player. This means the habitats and any birds played in them,
+the hand of bird cards and bonus cards, food tokens as well as turn tokens.
+"""
 from typing import List, Dict
 
 from Types import FoodTypes, Habitat, MAX_BIRDS_PER_HABITAT
 from Card import Card
-from FoodCost import FoodCost
 from Player import Player
 class BonusCard:
+    """
+    Ayee
+    """
     def __init__(self) -> None:
         """TODO"""
-        pass
 
 def egg_cost_from_slot(slot: int) -> int:
+    """
+    Utility function to return the cost of playing a card at each slot on the board.
+    """
     if slot == 0:
         return 0
     elif 1 <= slot <= 2:
@@ -36,20 +45,31 @@ class Board:
         self._hand = starting_hand
         self._bonus_cards = []
         if (len(self._food_tokens) + len(self._hand)) is not 5:
-            raise Exception(f"""Played should start with 5 total birds cards and food tokens, 
+            raise Exception(f"""Played should start with 5 total birds cards and food tokens,
             not {len(self._food_tokens)} bird cards and {len(self._hand)} food token""")
 
     def gain_food(self, food: FoodTypes):
+        """
+        Adds the given food to our food supply
+        """
         self._food_tokens.append(food)
 
     def draw_card(self, bird_card: Card):
+        """
+        Adds the bird card to our hand.
+        """
         self._hand.append(bird_card)
 
     def draw_bonus_card(self, bonus_card: BonusCard):
+        """
+        Adds the bonus card to our hand (separete from bird cards).
+        """
         self._bonus_cards.append(bonus_card)
 
     def total_eggs(self) -> int:
-        """Counts the total number of eggs on birds"""
+        """
+        Counts the total number of eggs on birds
+        """
         total_eggs = 0
         for habitat in self.habitat_slots:
             for bird in self.habitat_slots[habitat]:
@@ -68,10 +88,11 @@ class Board:
         """
         return self.habitat_slots[habitat].copy()
 
-    def bonus_cards() -> List[BonusCard]:
+    def bonus_cards(self) -> List[BonusCard]:
         """
         Returns a list of bonus cards currently in your hand
         """
+        return self._bonus_cards.copy()
 
     def playable_birds(self) -> Dict[Card, Habitat]:
         """
@@ -81,12 +102,12 @@ class Board:
         eggs = self.total_eggs()
         ## Do we have enough food?
         for bird_card in self._hand:
-            if not bird_card._cost.within_budget(self._food_tokens):
+            if not bird_card.cost().within_budget(self._food_tokens):
                 print("Too expensive, we cannot afford it")
                 continue
             ## Is there space in any habitat? And if so do we have enough eggs.
-            egg_costs = [0] * len(bird_card._possible_habitats)
-            for index, habitat in enumerate(bird_card._possible_habitats):
+            egg_costs = [0] * len(bird_card.habitats())
+            for index, habitat in enumerate(bird_card.habitats()):
                 if len(self.habitat_slots[habitat]) < MAX_BIRDS_PER_HABITAT:
                     egg_costs[index] = egg_cost_from_slot(len(self.habitat_slots[habitat]))
                     if egg_costs[index] <= eggs:
@@ -94,8 +115,6 @@ class Board:
                             playable_birds[bird_card] = []
                         playable_birds[bird_card].append(habitat)
                         print(f"Playable in {habitat}")
-                        # playable_birds.append(bird_card)                    
-            ## TODO Return the habitats we can play it in.
         return playable_birds
 
     def play_bird(self, bird_card: Card, habitat: Habitat, player: Player):
@@ -110,8 +129,8 @@ class Board:
             player.choose_eggs_to_spend(egg_cost)
         self.habitat_slots[habitat].append(bird_card)
         ## Pay the food as well!
-        
-        
+
+
     def eggable_birds(self) -> List[Card]:
         """
         Returns all birds with at least one free egg slot
@@ -122,4 +141,3 @@ class Board:
                 if bird.has_egg_slot():
                     eggable_birds.append(bird)
         return eggable_birds
-

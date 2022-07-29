@@ -1,7 +1,6 @@
-from enum import Enum
-from typing import Callable, List, Dict, Set
+from typing import Callable, List
 
-from Types import *
+from Types import FoodTypes, Habitat, NestTypes
 from FoodCost import FoodCost
 
 class Card:
@@ -9,10 +8,10 @@ class Card:
     Describes a bird card. Each bird card has a unique name, a cost in food,
     a nest type and a list of possible habitats in can live in.
     """
-    def __init__(self, 
-        name: str, 
-        cost: List[FoodTypes], 
-        nest: NestTypes, 
+    def __init__(self,
+        name: str,
+        cost: List[FoodTypes],
+        nest: NestTypes,
         possible_habitats: List[Habitat],
         egg_capacity: int,
         activation_func: Callable = None):
@@ -24,11 +23,30 @@ class Card:
         self._food = []
         self._cards = []
         self._activation_func = activation_func
-            
+
         if Habitat.ANY in possible_habitats:
             self._possible_habitats = [Habitat.FIELD, Habitat.FOREST, Habitat.OCEAN]
         else:
             self._possible_habitats = possible_habitats
+
+    # Some getters
+    def cost(self) -> FoodCost:
+        """
+        Cost of playing this bird'
+        """
+        return self._cost
+
+    def habitats(self) -> List[Habitat]:
+        """
+        Habitats where this bird can be played
+        """
+        return self._possible_habitats.copy()
+
+    def name(self) -> str:
+        """
+        The name of the bird.
+        """
+        return self._name
 
     def activate(self):
         """
@@ -45,7 +63,7 @@ class Card:
         if self._eggs == self._egg_capacity:
             raise Exception("Cannot lay egg, already at full capacity")
         self._eggs += 1
-    
+
     def remove_egg(self) -> None:
         """
         Removes an egg from this card. Raises an exception if there is no egg to remove
@@ -55,7 +73,7 @@ class Card:
         self._eggs -= 1
 
     def has_egg_slot(self) -> bool:
-        if self._eggs <= self.egg_capacity:
+        if self._eggs <= self._egg_capacity:
             return True
         else:
             return False
@@ -67,11 +85,11 @@ class Card:
 
     def cached_food(self) -> List[FoodTypes]:
         """Returns all food cached on this card"""
-        return self._cached_food
+        return self._food
 
     def tucked_cards(self) -> List:
         """Returns all cards tucked under this card"""
-        return self._tucked_cards
+        return self._cards
 
     def __str__(self):
         return f"{self._name}: {self._cost}, {self._nest}, {self._possible_habitats}"

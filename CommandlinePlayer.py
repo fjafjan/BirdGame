@@ -1,37 +1,44 @@
-import enum
+"""
+The first version of a player, simply using the command line to decide
+which actions to take!
+"""
+from typing import Dict, List
+
 from Player import Player
 from Board import Board
 from Types import Action, BirdFeederDice, FoodTypes, Habitat
 from Card import Card
 
-from typing import Dict, List
 
 ## Utility function used a lot. Not convinced this is better than nothing having it?
-def choose_option(options: List, prompt: str, descr: str) -> int:
-    """
-    Prompts the user to choose one of the options in the list. 
-    Returns the index of the chosen option or raises an exception if
-    an invalid choice was made.
-    """
-    print(prompt)
-    for index, op in options:
-        print(f"{descr} #{index} : {op}")
-    chosen_op = int(input())
-    if 0 > chosen_op >= len(options):
-        raise Exception(f"Invalid choice {chosen_op}.")
-    # TODO change this to a debug print!
-    print(f"Chosen {descr}: {chosen_op}")
-    return chosen_op
+# def choose_option(options: List, prompt: str, descr: str) -> int:
+#     """
+#     Prompts the user to choose one of the options in the list.
+#     Returns the index of the chosen option or raises an exception if
+#     an invalid choice was made.
+#     """
+#     print(prompt)
+#     for index, op in options:
+#         print(f"{descr} #{index} : {op}")
+#     chosen_op = int(input())
+#     if 0 > chosen_op >= len(options):
+#         raise Exception(f"Invalid choice {chosen_op}.")
+#     # TODO change this to a debug print!
+#     print(f"Chosen {descr}: {chosen_op}")
+#     return chosen_op
 
 class CommandlinePlayer(Player):
+    """
+    See above
+    """
     def __init__(self) -> None:
         self._input_function = input
         self._board = None
         super().__init__()
-    
+
     def initialize(self, board: Board) -> None:
         self._board = board
-    
+
     def board(self) -> Board:
         return self._board
 
@@ -50,9 +57,9 @@ class CommandlinePlayer(Player):
         print("Select a card:")
         for index, bird_card in enumerate(birds_in_shop):
             print(f"Bird: #{index} : {bird_card}")
-        print(f"#{index+1} : Deck (unknown bird)")
+        print(f"#{len(birds_in_shop)+1} : Deck (unknown bird)")
         chosen_bird = int(self._input_function())
-        if chosen_bird == index+1:
+        if chosen_bird == len(birds_in_shop)+1:
             return None
         else:
             return birds_in_shop[chosen_bird]
@@ -60,10 +67,10 @@ class CommandlinePlayer(Player):
     def choose_bird_to_lay_egg(self, birds_with_free_capacity: List[Card]) -> Card:
         print("Select bird to lay egg on:")
         for index, bird_card in enumerate(birds_with_free_capacity):
-            print(f"#{index} : {bird_card._name}")
+            print(f"#{index} : {bird_card.name()}")
         chosen_bird = int(self._input_function())
 
-        if 0 <= chosen_bird  < len(birds_with_free_capacity):
+        if 0 <= chosen_bird < len(birds_with_free_capacity):
             return birds_with_free_capacity[chosen_bird]
         else:
             raise Exception(f"Invalid choice {chosen_bird}, choose between 0-{len(birds_with_free_capacity)-1}")
@@ -79,7 +86,7 @@ class CommandlinePlayer(Player):
                 chosen_bird = bird
         possible_habitats = playable_birds[chosen_bird]
         if len(possible_habitats) > 1:
-            print(f"Select which habitat to play {chosen_bird._name}:")
+            print(f"Select which habitat to play {chosen_bird.name()}:")
             for i, habitat in enumerate(possible_habitats):
                 print(f"#{i}: {habitat}")
             chosen_habitat = possible_habitats[int(self._input_function())]
@@ -91,7 +98,7 @@ class CommandlinePlayer(Player):
     def choose_food_dice(self, bird_feeder_dice: List[BirdFeederDice], num_dice: int) -> List[BirdFeederDice]:
         print("Select food dice from the birdfeeder")
         ret = []
-        for i in range(0, num_dice):
+        for _ in range(0, num_dice):
             for index, die in enumerate(bird_feeder_dice):
                 print(f"#{index}: {die}")
             chosen_die = int(input())
@@ -101,14 +108,14 @@ class CommandlinePlayer(Player):
     def choose_grain_or_invertebret(self) -> FoodTypes:
         print("#0: Grain\n#1: Invertebret")
         chosen_food = int(self._input_function())
-        return FoodTypes.GRAIN if chosen_food == 0 else FoodTypes.INVETEBRATE 
+        return FoodTypes.GRAIN if chosen_food == 0 else FoodTypes.INVETEBRATE
 
     def choose_starting_birds(self, starting_hand: List[Card]) -> List[Card]:
         print("Select what bird to keep")
         for index, bird_card in enumerate(starting_hand):
             print(f"Bird {index}: {bird_card}")
 
-        ## function so we don't do the same parsing multiple times. 
+        ## function so we don't do the same parsing multiple times.
         ## Todo move this to separate function, but of course should be replaced entirely.
         chosen_birds = self._input_function()
         kept_birds = []

@@ -17,7 +17,7 @@ class BirdFeederDice(Enum):
     FRUIT = 5
 
 class NestTypes(Enum):
-    ANY = 0 
+    ANY = 0
     GROUND = 1
     CAVITY = 2
     BOWL = 3

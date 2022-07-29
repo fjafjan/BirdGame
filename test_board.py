@@ -40,7 +40,7 @@ def test_picking_one_bird(single_starting_bird, single_starting_bird_food):
     starting_birds = single_starting_bird
     starting_food = single_starting_bird_food
     test_board = Board(starting_birds, starting_food)
-    ## Currently the responsibility is a bit weird!! 
+    ## Currently the responsibility is a bit weird!!
     ## the board should hold everything imo.
     playable_birds = test_board.playable_birds()
     print("PLayable birds: ", playable_birds)

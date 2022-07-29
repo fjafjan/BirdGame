@@ -1,9 +1,8 @@
 """
-Class for representing the birdfeeder. Could maybe be merged in to 
-be a part of the "remaining game" components. 
+Class for representing the birdfeeder. Could maybe be merged in to
+be a part of the "remaining game" components.
 """
 
-from enum import Enum
 from typing import List
 
 import random
@@ -23,7 +22,7 @@ class BirdFeeder:
 
     def dice(self) -> List[BirdFeederDice]:
         return self._dice.copy()
-    
+
     @staticmethod
     def birdfeeder_dice_to_foodtype(die: BirdFeederDice) -> FoodTypes:
         if die == BirdFeederDice.FISH:
@@ -43,7 +42,7 @@ class BirdFeeder:
         """
         Choose a dice from the birdfeeder. Will raise an exception if no such dice excists.
         """
-        for i, die in enumerate(self._dice):
+        for die in self._dice:
             if die == chosen_die:
                 self._dice.remove(die)
                 print(f"Removed {die}")
@@ -51,9 +50,7 @@ class BirdFeeder:
                     return player.choose_grain_or_invertebret()
                 else:
                     return self.birdfeeder_dice_to_foodtype(die)
-                break
-        else:
-            raise Exception(f"No {chosen_die} in the birdfeeder!")
+        raise Exception(f"No {chosen_die} in the birdfeeder!")
 
     def roll_dice_not_in_birdfeeder(self) -> List[BirdFeederDice]:
         """
