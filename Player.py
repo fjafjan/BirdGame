@@ -2,8 +2,9 @@ from Card import Card
 
 from typing import List
 
-from Types import Action
+from Types import Action, FoodTypes
 
+# from Birdfeeder import BirdFeederDice
 ## This is the operative class, i.e. the person making decisions. 
 ## So any request for choice should be delegated to a player class. 
 
@@ -20,26 +21,32 @@ class Player:
     def __init__(self) -> None:
         pass
 
-    def choose_eggs_to_spend(birds_with_eggs: List[Card], number_of_eggs: int):
+    def choose_eggs_to_spend(self, birds_with_eggs: List[Card], number_of_eggs: int):
         """
         Choose eggs to remove from a bird.
         """
         pass
 
-    def choose_bird_to_lay_egg(birds_with_free_capacity: List[Card], number_of_eggs: int):
+    def choose_bird_to_lay_egg(self, birds_with_free_capacity: List[Card], number_of_eggs: int):
         """
         Choose from any birds with egg capacity. Might be filtered in some other way.
         """
         pass
 
-    def choose_card_to_draw(birds_in_shop: List[Card]):
+    def choose_card_to_draw(self, birds_in_shop: List[Card]):
         """
         Choose from the cards in the 'shop'
         """
         pass
 
-    def choose_action_to_take(possible_actions: List[Action]):
+    def choose_action_to_take(self, possible_actions: List[Action]):
         """
         Choose which action to take. 
+        """
+        pass
+
+    def choose_foodtype(self) -> FoodTypes:
+        """
+        Choose wether to pick grain or invertebret
         """
         pass
