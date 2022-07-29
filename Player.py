@@ -1,6 +1,6 @@
 from Card import Card
 
-from typing import List
+from typing import Dict, List
 
 from Types import Action, FoodTypes
 
@@ -21,27 +21,39 @@ class Player:
     def __init__(self) -> None:
         pass
 
-    def choose_eggs_to_spend(self, birds_with_eggs: List[Card], number_of_eggs: int):
+    def choose_starting_birds(self, starting_hand: List[Card]) -> List[Card]:
         """
-        Choose eggs to remove from a bird.
+        Select which starting birds to keep from an initial hand.
         """
         pass
 
-    def choose_bird_to_lay_egg(self, birds_with_free_capacity: List[Card], number_of_eggs: int):
+    def choose_starting_food(self, starting_food: List[FoodTypes], num_food_to_keep: int) -> List[FoodTypes]:
+        """
+        Select which of the starting food to keep, given a number of birds cards you have selected
+        """
+        pass
+
+    def choose_action_to_take(self, possible_actions: List[Action]) -> Action:
+        """
+        Choose which action to take. 
+        """
+        pass
+
+    def choose_bird_to_lay_egg(self, birds_with_free_capacity: List[Card]) -> Card:
         """
         Choose from any birds with egg capacity. Might be filtered in some other way.
         """
         pass
 
-    def choose_card_to_draw(self, birds_in_shop: List[Card]):
+    def choose_card_to_draw(self, birds_in_shop: List[Card]) -> Card:
         """
         Choose from the cards in the 'shop'
         """
         pass
 
-    def choose_action_to_take(self, possible_actions: List[Action]):
+    def choose_eggs_to_spend(self, birds_with_eggs: List[Card], number_of_eggs: int) -> Dict[Card, int]:
         """
-        Choose which action to take. 
+        Choose eggs to remove from a bird.
         """
         pass
 
