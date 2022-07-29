@@ -4,6 +4,7 @@ from GameSetup import init_deck, init_food, init_actions
 from Board import Board
 from Card import Card
 from Player import Player
+# from CommandlinePlayer import CommandlinePlayer
 from Types import FoodTypes, Action
 
 ## Utility function
@@ -22,47 +23,10 @@ def request_set(input_list: List, message_str: str):
 
 
 class Wingspan:
-    def choose_starting_birds(self, starting_hand: List[Card]) -> List[Card]:
-        print("Select what bird to keep")
-        for index, bird_card in enumerate(starting_hand):
-            print(f"Bird {index}: {bird_card}")
-
-        ## function so we don't do the same parsing multiple times. 
-        ## Todo move this to separate function, but of course should be replaced entirely.
-        chosen_birds = self.input_function()
-        kept_birds = []
-        if chosen_birds.isdigit():
-            kept_birds.append(int(chosen_birds))
-        elif len(chosen_birds.split(",")) >= 2:
-            kept_birds = {int(i) for i in chosen_birds.split(",")}
-        elif len(chosen_birds.strip()) == 0:
-            print("Are you sure you want to keep zero birds? Y/N")
-            response = self.input_function()
-            if response.upper() != "Y":
-                print("Make up your mind!")
-                exit(0)
-        else:
-            print("invalid argument")
-            exit(1)
-        your_hand = [starting_hand[i] for i in  kept_birds]
-        return your_hand
-    
-    def choose_starting_food(self, starting_food: List[FoodTypes], num_food_to_keep: int):
-        print(f"Select {num_food_to_keep} food to keep")
-        for index, food_token in enumerate(starting_food):
-            print(f"Food {index}: {food_token}")
-        chosen_food = self.input_function()
-        chosen_food = chosen_food.strip().split(",")
-        chosen_food = [int(i) for i in chosen_food]
-        if len(chosen_food) != num_food_to_keep:
-            print(f"Chose {len(chosen_food)} insteadof {num_food_to_keep}")
-        your_food = [starting_food[i] for i in chosen_food]
-        return your_food
-
-    def __init__(self, input_function = input):
-        self.input_function = input_function
+    def __init__(self, players: List[Player]):
         deck = init_deck()
         starting_food = init_food()
+
         starting_hand = deck[0:5]
         your_hand = self.choose_starting_birds(starting_hand)
         print("Kept birds are:", your_hand)

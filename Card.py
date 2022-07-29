@@ -68,4 +68,8 @@ class Card:
     def __str__(self):
         return f"{self._name}: {self._cost}, {self._nest}, {self._possible_habitats}"
 
+    def __repr__(self) -> str:
+        return self.__str__()
 
+    # def __eq__(self, __o: object) -> bool:
+    #     o._name == self._name

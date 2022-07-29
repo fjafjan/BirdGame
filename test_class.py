@@ -12,11 +12,12 @@ from GameSetup import init_deck, init_food
 @pytest.fixture
 def full_deck() -> List[Card]:
     """The entire deck (currently only five cards)"""
-    return init_deck()
+    return init_deck().draw_cards(5)
     
 @pytest.fixture
 def raven(full_deck) -> Card:
     """Returns the raven as a sample card."""
+    print("Full deck is", full_deck)
     return full_deck[1]
 
 

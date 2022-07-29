@@ -8,7 +8,7 @@ import pytest
 @pytest.fixture
 def full_deck() -> List[Card]:
     """The entire deck (currently only five cards)"""
-    return init_deck()
+    return init_deck().draw_cards(10)
 
 @pytest.fixture
 def full_food() -> List[FoodTypes]:
@@ -51,6 +51,7 @@ def test_picking_three_birds(three_starting_birds, three_starting_bird_food):
 
     print(three_starting_birds[2])
     playable_birds = test_board.playable_birds()
+    print("Playable birds", playable_birds)
     assert three_starting_birds[0] not in playable_birds
     assert three_starting_birds[1] not in playable_birds
     assert three_starting_birds[2] in playable_birds

@@ -2,12 +2,13 @@ from typing import List
 
 from Card import Card
 from Types import FoodTypes, Action, NestTypes, Habitat
+from Deck import Deck
 
 ## I guess we should define the powers outside as functions, and then pair them with the birds. 
 ## Since a number of birds share the same power. 
 
-def init_deck() -> List[Card]:
-    deck = [
+def init_deck() -> Deck:
+    cards = [
         Card("Pigeon", [FoodTypes.GRAIN, FoodTypes.GRAIN], NestTypes.GROUND, [Habitat.ANY], 6), # Lay an egg on any bird.
         Card("Raven", [FoodTypes.ANY, FoodTypes.FRUIT], NestTypes.PLATFORM, [Habitat.ANY], 3), # the worse raven power, i.e. sack one egg, gain 1 food.
         Card("Seagull", [FoodTypes.FISH, FoodTypes.FISH], NestTypes.PLATFORM, [Habitat.OCEAN], 4), # Draw an extra card?
@@ -22,7 +23,7 @@ def init_deck() -> List[Card]:
         Card("Purple Martin", [FoodTypes.INVETEBRATE], NestTypes.CAVITY, [Habitat.FIELD, Habitat.OCEAN], 3), # Tuck a card behind this card, if you do draw a card.
         Card("American Coot", [FoodTypes.ANY, FoodTypes.GRAIN], NestTypes.PLATFORM, [Habitat.OCEAN], 5) # Tuck a card behind this card, if you do draw a card.
     ]
-    return deck
+    return Deck(cards)
 
 def init_food() -> List[FoodTypes]:
     food = [
