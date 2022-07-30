@@ -1,5 +1,5 @@
 from Player import Player
-from Types import FoodTypes, BirdFeederDice
+from Types import Food, BirdFeederDice
 from Birdfeeder import BirdFeeder
 
 
@@ -8,8 +8,8 @@ import pytest
 class MockPlayer(Player):
     def __init__(self) -> None:
         super().__init__()
-    def choose_grain_or_invertebret(self) -> FoodTypes:
-        return FoodTypes.GRAIN
+    def choose_grain_or_invertebret(self) -> Food:
+        return Food.GRAIN
 
 
 @pytest.fixture
@@ -25,11 +25,11 @@ def player() -> MockPlayer:
 # def test_birdfeeder_types(birdfeeder: BirdFeeder):
 #     possible_food = birdfeeder.food()
 #     print("Possible food is", possible_food)
-#     assert FoodTypes.FISH in possible_food
-#     assert FoodTypes.FRUIT in possible_food
-#     assert FoodTypes.GRAIN in possible_food
-#     assert FoodTypes.INVETEBRATE in possible_food
-#     assert FoodTypes.RODENT not in possible_food
+#     assert Food.FISH in possible_food
+#     assert Food.FRUIT in possible_food
+#     assert Food.GRAIN in possible_food
+#     assert Food.INVETEBRATE in possible_food
+#     assert Food.RODENT not in possible_food
 
 def reset_birdfeeder(birdfeeder: BirdFeeder):
     """Resets the birdfeeder between tests to pre-defined state."""
@@ -46,11 +46,11 @@ def test_choose_valid_food(birdfeeder: BirdFeeder, player: MockPlayer):
     my_food.append(birdfeeder.choose_dice(BirdFeederDice.FRUIT, player))
     ## We default to choosing grain.
     my_food.append(birdfeeder.choose_dice(BirdFeederDice.GRAIN_OR_INVETEBRET, player))
-    assert my_food.count(FoodTypes.FRUIT) == 2
-    assert my_food.count(FoodTypes.FISH) == 1
-    assert my_food.count(FoodTypes.GRAIN) == 1
-    assert my_food.count(FoodTypes.INVETEBRATE) == 0
-    assert my_food.count(FoodTypes.RODENT) == 0
+    assert my_food.count(Food.FRUIT) == 2
+    assert my_food.count(Food.FISH) == 1
+    assert my_food.count(Food.GRAIN) == 1
+    assert my_food.count(Food.INVETEBRATE) == 0
+    assert my_food.count(Food.RODENT) == 0
 
 def test_choose_invalid_food(birdfeeder: BirdFeeder, player: MockPlayer):
     """

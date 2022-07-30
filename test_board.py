@@ -1,4 +1,4 @@
-from Card import Card, FoodTypes
+from Card import Card, Food
 from GameSetup import init_deck, init_food
 from Board import Board
 
@@ -11,7 +11,7 @@ def full_deck() -> List[Card]:
     return init_deck().draw_cards(10)
 
 @pytest.fixture
-def full_food() -> List[FoodTypes]:
+def full_food() -> List[Food]:
     """A list with all types of food"""
     return init_food()
 
@@ -21,7 +21,7 @@ def single_starting_bird(full_deck) -> List[Card]:
     return full_deck[0:1]
 
 @pytest.fixture
-def single_starting_bird_food(full_food) -> List[FoodTypes]:
+def single_starting_bird_food(full_food) -> List[Food]:
     """A sample food from selecting one bird."""
     return full_food[0:4]
 

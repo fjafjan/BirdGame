@@ -2,7 +2,7 @@
 Test for the Card test!
 """
 
-from Card import FoodTypes, FoodCost, Card
+from Card import Food, FoodCost, Card
 from Board import Board
 from typing import List
 import pytest

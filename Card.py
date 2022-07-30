@@ -1,6 +1,6 @@
 from typing import Callable, List
 
-from Types import FoodTypes, Habitat, NestTypes
+from Types import Food, Habitat, Nest
 from FoodCost import FoodCost
 
 class Card:
@@ -10,8 +10,8 @@ class Card:
     """
     def __init__(self,
         name: str,
-        cost: List[FoodTypes],
-        nest: NestTypes,
+        cost: List[Food],
+        nest: Nest,
         possible_habitats: List[Habitat],
         egg_capacity: int,
         activation_func: Callable = None):
@@ -83,7 +83,7 @@ class Card:
         """The number of eggs currently on this bird"""
         return self._eggs
 
-    def cached_food(self) -> List[FoodTypes]:
+    def cached_food(self) -> List[Food]:
         """Returns all food cached on this card"""
         return self._food
 

@@ -1,5 +1,5 @@
 from Card import Card
-from Types import Action, FoodTypes, Habitat, BirdFeederDice
+from Types import Action, Food, Habitat, BirdFeederDice
 
 from typing import Dict, List
 
@@ -38,7 +38,7 @@ class Player:
         """
         pass
 
-    def choose_starting_food(self, starting_food: List[FoodTypes], num_food_to_keep: int) -> List[FoodTypes]:
+    def choose_starting_food(self, starting_food: List[Food], num_food_to_keep: int) -> List[Food]:
         """
         Select which of the starting food to keep, given a number of birds cards you have selected
         """
@@ -80,7 +80,7 @@ class Player:
         """
         pass
 
-    def choose_grain_or_invertebret(self) -> FoodTypes:
+    def choose_grain_or_invertebret(self) -> Food:
         """
         Choose wether to pick grain or invertebret
         """

@@ -5,7 +5,7 @@ the hand of bird cards and bonus cards, food tokens as well as turn tokens.
 """
 from typing import List, Dict
 
-from Types import FoodTypes, Habitat, MAX_BIRDS_PER_HABITAT
+from Types import Food, Habitat, MAX_BIRDS_PER_HABITAT
 from Card import Card
 from Player import Player
 class BonusCard:
@@ -34,7 +34,7 @@ class Board:
     consisting of their available resources, cards in hand, available
     food tokens.
     """
-    def __init__(self, starting_hand: List[Card], starting_food: List[FoodTypes]):
+    def __init__(self, starting_hand: List[Card], starting_food: List[Food]):
         self.habitat_slots = {
             Habitat.FIELD : [],
             Habitat.FOREST : [],
@@ -48,7 +48,7 @@ class Board:
             raise Exception(f"""Played should start with 5 total birds cards and food tokens,
             not {len(self._food_tokens)} bird cards and {len(self._hand)} food token""")
 
-    def gain_food(self, food: FoodTypes):
+    def gain_food(self, food: Food):
         """
         Adds the given food to our food supply
         """
@@ -141,3 +141,14 @@ class Board:
                 if bird.has_egg_slot():
                     eggable_birds.append(bird)
         return eggable_birds
+
+    def birds_with_eggs(self) -> List[Card]:
+        """
+        Returns a list of all birds with at least one egg.
+        """
+        birds_with_eggs = []
+        for habitat in self.habitat_slots:
+            for bird in self.birds_in_habitat(habitat):
+                if bird.eggs() > 0:
+                    birds_with_eggs.append(bird)
+        return birds_with_eggs

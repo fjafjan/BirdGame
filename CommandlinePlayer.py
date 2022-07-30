@@ -6,7 +6,7 @@ from typing import Dict, List
 
 from Player import Player
 from Board import Board
-from Types import Action, BirdFeederDice, FoodTypes, Habitat
+from Types import Action, BirdFeederDice, Food, Habitat
 from Card import Card
 
 
@@ -105,10 +105,10 @@ class CommandlinePlayer(Player):
             ret.append(bird_feeder_dice.pop(chosen_die))
         return ret
 
-    def choose_grain_or_invertebret(self) -> FoodTypes:
+    def choose_grain_or_invertebret(self) -> Food:
         print("#0: Grain\n#1: Invertebret")
         chosen_food = int(self._input_function())
-        return FoodTypes.GRAIN if chosen_food == 0 else FoodTypes.INVETEBRATE
+        return Food.GRAIN if chosen_food == 0 else Food.INVETEBRATE
 
     def choose_starting_birds(self, starting_hand: List[Card]) -> List[Card]:
         print("Select what bird to keep")
@@ -135,7 +135,7 @@ class CommandlinePlayer(Player):
         your_hand = [starting_hand[i] for i in  kept_birds]
         return your_hand
 
-    def choose_starting_food(self, starting_food: List[FoodTypes], num_food_to_keep: int):
+    def choose_starting_food(self, starting_food: List[Food], num_food_to_keep: int):
         print(f"Select {num_food_to_keep} food to keep")
         for index, food_token in enumerate(starting_food):
             print(f"Food {index}: {food_token}")

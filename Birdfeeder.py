@@ -8,7 +8,7 @@ from typing import List
 import random
 import time
 
-from Types import FoodTypes, BirdFeederDice
+from Types import Food, BirdFeederDice
 from Player import Player
 
 class BirdFeeder:
@@ -24,21 +24,21 @@ class BirdFeeder:
         return self._dice.copy()
 
     @staticmethod
-    def birdfeeder_dice_to_foodtype(die: BirdFeederDice) -> FoodTypes:
+    def birdfeeder_dice_to_foodtype(die: BirdFeederDice) -> Food:
         if die == BirdFeederDice.FISH:
-            return FoodTypes.FISH
+            return Food.FISH
         elif die == BirdFeederDice.FRUIT:
-            return FoodTypes.FRUIT
+            return Food.FRUIT
         elif die == BirdFeederDice.GRAIN:
-            return FoodTypes.GRAIN
+            return Food.GRAIN
         elif die == BirdFeederDice.INVETEBRET:
-            return FoodTypes.INVETEBRATE
+            return Food.INVETEBRATE
         elif die == BirdFeederDice.RODENT:
-            return FoodTypes.RODENT
+            return Food.RODENT
         else:
             raise Exception(f"Cannot determine foodtype from {die}")
 
-    def choose_dice(self, chosen_die: BirdFeederDice, player: Player) -> FoodTypes:
+    def choose_dice(self, chosen_die: BirdFeederDice, player: Player) -> Food:
         """
         Choose a dice from the birdfeeder. Will raise an exception if no such dice excists.
         """

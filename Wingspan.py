@@ -28,6 +28,10 @@ class Wingspan:
         self._bird_feeder = BirdFeeder()
 
     def setup(self):
+        """
+        Player choose their starting cards and food, and game components
+        are initialized.
+        """
         for player in self._players:
             starting_food = init_food()
             starting_hand = self._deck.draw_cards(5)
@@ -100,6 +104,10 @@ class Wingspan:
         self._deck.refill_face_up()
 
     def play(self):
+        """
+        Play the game until completion. Currently rounds are not implemented so gameplay
+        continued indefinitely.
+        """
         possible_actions = init_actions()
         ## Now we are actually in the game phase!
         ## We do not yet have the concept of a round, or turn. Lets just have an infinite
