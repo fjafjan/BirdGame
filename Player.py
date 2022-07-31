@@ -85,7 +85,7 @@ class Player:
         pass
 
 
-    def choose_food_to_spend(self, food: List[Food], cost: FoodCost) -> List[Food]:
+    def choose_food_to_spend(self, available_food: List[Food], cost: FoodCost) -> List[Food]:
         """
         Choose which of the available food should be spent
         """

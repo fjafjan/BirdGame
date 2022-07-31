@@ -10,7 +10,9 @@ from Player import Player
 from Board import Board
 from Wingspan import Wingspan
 
-def gull_power(this_bird: Card, player: Player, board: Board, wingspan: Wingspan):
+from Types import Food, Habitat, Nest
+
+def gull_power(_: Card, player: Player, board: Board, wingspan: Wingspan):
     """
     Remove an egg from any bird (?) to draw 1 or 2 cards.
     """
@@ -26,3 +28,8 @@ def gull_power(this_bird: Card, player: Player, board: Board, wingspan: Wingspan
             board.draw_card(wingspan.deck().draw_cards(1))
         else:
             board.draw_card(wingspan.deck().draw_face_up(chosen_card))
+
+gulls = [
+    Card("Franklin's Gull", [Food.FISH, Food.FISH], Nest.GROUND, [Habitat.OCEAN], 4, gull_power),
+    Card("Tawny Gull", [Food.FISH, Food.FISH], Nest.PLATFORM, [Habitat.ANY], 3, gull_power)
+]

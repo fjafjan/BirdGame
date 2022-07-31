@@ -14,7 +14,8 @@ class Card:
                  nest: Nest,
                  possible_habitats: List[Habitat],
                  egg_capacity: int,
-                 activation_func: Callable = None):
+                 activation_func: Callable = None,
+                 on_play_func: Callable = None):
         self._name = name
         self._cost = FoodCost(cost)
         self._nest = nest
@@ -23,6 +24,7 @@ class Card:
         self._food = []
         self._cards = []
         self._activation_func = activation_func
+        self._on_play_func = on_play_func
 
         if Habitat.ANY in possible_habitats:
             self._possible_habitats = [Habitat.FIELD, Habitat.FOREST, Habitat.OCEAN]
@@ -54,7 +56,15 @@ class Card:
         TODO Determine what inputs this function will need!
         """
         if self._activation_func is not None:
-            self._activation_func(self, kwargs)
+            self._activation_func(self, kwargs=kwargs)
+
+    def play(self, **kwargs):
+        """
+        Activates this cards on play function, if there is one.
+        TODO Determine how the arguments are forwardaded.
+        """
+        if self._on_play_func is not None:
+            self._on_play_func(self, kwargs=kwargs)
 
     def lay_egg(self) -> None:
         """

@@ -85,8 +85,6 @@ class Wingspan:
         Plays a bird in the chosen habitat
         """
         playable_birds = board.playable_birds()
-        if len(playable_birds) == 0:
-            print("No playable birds")
         bird, habitat = player.choose_bird_to_play(playable_birds)
         print(f"bird: {bird}, habitat: {habitat}")
         board.play_bird(bird, habitat, player)
@@ -95,11 +93,12 @@ class Wingspan:
         """
         Gathers food and activates birds in the forest habitat.
         """
-        active_slot = board.birds_in_habitat(Habitat.FOREST)
+        active_slot = len(board.birds_in_habitat(Habitat.FOREST))
         optional_sacrifice = active_slot % 2 != 0
-        if optional_sacrifice:
-            extra_die = player.choose_sarifice_card_for_food()
-        num_dice = 2 + extra_die + (active_slot // 2)
+
+        extra_die = player.choose_sarifice_card_for_food() if optional_sacrifice else 0
+
+        num_dice = 1 + extra_die + (active_slot // 2)
         food_dice = player.choose_food_dice(self._bird_feeder.dice(), num_dice)
         ## TODO re-write this with the nice for loop!
         for die in food_dice:
@@ -111,14 +110,16 @@ class Wingspan:
         """
         Lays eggs and activates birds in the field habitat.
         """
-        active_slot = board.birds_in_habitat(Habitat.FIELD)
+        active_slot = len(board.birds_in_habitat(Habitat.FIELD))
         optional_sacrifice = active_slot % 2 != 0
-        if optional_sacrifice:
-            extra_egg = player.choose_sacrifice_food_for_egg()
+        extra_egg = player.choose_sacrifice_food_for_egg() if optional_sacrifice else 0
         num_eggs = 2 + extra_egg + (active_slot // 2)
         for _ in range(num_eggs):
             ## Would be nice if we had the option to lay multiple eggs here realistically.
             eggable_birds = board.eggable_birds()
+            if len(eggable_birds) == 0:
+                print("No birds to lay eggs on!")
+                break
             chosen_bird = player.choose_bird_to_lay_egg(eggable_birds)
             chosen_bird.lay_egg()
         self.activate_birds(player, board, Habitat.FIELD)
@@ -128,11 +129,10 @@ class Wingspan:
         Draws cards from the face up birds or from the deck, and activates birds
         in the ocean habitat.
         """
-        active_slot = board.birds_in_habitat(Habitat.FIELD)
+        active_slot = len(board.birds_in_habitat(Habitat.FIELD))
         optional_sacrifice = active_slot % 2 != 0
-        if optional_sacrifice:
-            extra_card = player.choose_sacrifice_egg_for_card()
-        num_cards = 2 + extra_card + (active_slot // 2)
+        extra_card = player.choose_sacrifice_egg_for_card() if optional_sacrifice else 0
+        num_cards = 1 + extra_card + (active_slot // 2)
         for _ in range(num_cards):
             chosen_card = player.choose_card_to_draw(self._deck.face_up_cards())
             # This corresponds to drawing from the deck.
@@ -159,6 +159,9 @@ class Wingspan:
                 board = player.board()
                 action = player.choose_action_to_take(possible_actions)
                 if action == Action.PLAY_BIRD:
+                    if len(board.playable_birds()) == 0:
+                        print("No playable birds")
+                        continue
                     self.play_bird(player, board)
                 elif action == Action.GATHER_FOOD:
                     self.gather_food(player, board)
@@ -173,7 +176,7 @@ class Wingspan:
 
 
 if __name__ == "__main__":
-    players = [CommandlinePlayer()]
+    players = [CommandlinePlayer("Player 0"), CommandlinePlayer("Player 1")]
     game = Wingspan(players)
     game.setup()
     game.play()

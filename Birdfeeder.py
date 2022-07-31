@@ -59,6 +59,13 @@ class BirdFeeder:
                     return self.birdfeeder_dice_to_foodtype(die)
         raise Exception(f"No {chosen_die} in the birdfeeder!")
 
+    def food_available_in_birdfeeder(self, food_type: Food) -> bool:
+        """
+        Returns true if it is possible to gain a food of the specific type
+        in the birdfeeder.
+        """
+
+
     def roll_dice_not_in_birdfeeder(self) -> List[BirdFeederDice]:
         """
         Rolls any dice not in the birdfeeder and returns the outcome.
