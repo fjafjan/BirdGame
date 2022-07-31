@@ -129,7 +129,9 @@ class Board:
             player.choose_eggs_to_spend(egg_cost)
         self.habitat_slots[habitat].append(bird_card)
         ## Pay the food as well!
-
+        food_to_pay = player.choose_food_to_spend()
+        for food in food_to_pay:
+            self._food_tokens.remove(food)
 
     def eggable_birds(self) -> List[Card]:
         """

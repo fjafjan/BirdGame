@@ -9,12 +9,12 @@ class Card:
     a nest type and a list of possible habitats in can live in.
     """
     def __init__(self,
-        name: str,
-        cost: List[Food],
-        nest: Nest,
-        possible_habitats: List[Habitat],
-        egg_capacity: int,
-        activation_func: Callable = None):
+                 name: str,
+                 cost: List[Food],
+                 nest: Nest,
+                 possible_habitats: List[Habitat],
+                 egg_capacity: int,
+                 activation_func: Callable = None):
         self._name = name
         self._cost = FoodCost(cost)
         self._nest = nest
@@ -48,13 +48,13 @@ class Card:
         """
         return self._name
 
-    def activate(self):
+    def activate(self, **kwargs):
         """
         Activates this card if there is an activation function.
         TODO Determine what inputs this function will need!
         """
         if self._activation_func is not None:
-            self._activation_func()
+            self._activation_func(self, kwargs)
 
     def lay_egg(self) -> None:
         """

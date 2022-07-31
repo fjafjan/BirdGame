@@ -10,7 +10,7 @@ from Deck import Deck
 def init_deck() -> Deck:
     cards = [
         Card("Pigeon", [Food.GRAIN, Food.GRAIN], Nest.GROUND, [Habitat.ANY], 6), # Lay an egg on any bird.
-        Card("Seagull", [Food.FISH, Food.FISH], Nest.PLATFORM, [Habitat.OCEAN], 4), # Draw an extra card?
+        Card("Seagull", [Food.FISH, Food.FISH], Nest.PLATFORM, [Habitat.OCEAN], 4), # Draw an extra card? Pay one egg to draw two cards
         Card("Hummingbird", [Food.FRUIT], Nest.CAVITY, [Habitat.FOREST], 2), # Each player gains 1 dice from the birdfeeder.
         Card("Parkers Owl", [Food.RODENT, Food.INVETEBRATE], Nest.CAVITY, [Habitat.FOREST], 6), # Decide what it does :D
         Card("Painted Whitestart", [Food.INVETEBRATE], Nest.GROUND, [Habitat.FOREST], 3), # Gain 1 invertebret from the supply

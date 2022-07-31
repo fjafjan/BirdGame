@@ -1,9 +1,10 @@
+from typing import List
+import pytest
+
 from Card import Card, Food
 from GameSetup import init_deck, init_food
 from Board import Board
 
-from typing import List
-import pytest
 
 @pytest.fixture
 def full_deck() -> List[Card]:

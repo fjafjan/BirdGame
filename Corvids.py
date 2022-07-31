@@ -26,6 +26,7 @@ def corvid_power(this_bird: Card, player: Player, board: Board, num_food: int):
         bird.remove_egg()
 
 
+
 ravens = [
     Card("Chichuacha Raven", [Food.ANY, Food.ANY, Food.FRUIT], Nest.PLATFORM, [Habitat.ANY], 3, corvid_power), # the worse raven power, i.e. sack one egg, gain 1 food.
     Card("Scottish Raven", [Food.ANY, Food.ANY, Food.FISH], Nest.PLATFORM, [Habitat.OCEAN], 2, corvid_power),

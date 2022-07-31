@@ -11,11 +11,20 @@ class MockPlayer(Player):
     def choose_grain_or_invertebret(self) -> Food:
         return Food.GRAIN
 
+def reset_birdfeeder(birdfeeder: BirdFeeder):
+    """Resets the birdfeeder between tests to pre-defined state."""
+    birdfeeder._dice = [
+        BirdFeederDice.FISH,
+        BirdFeederDice.FRUIT,
+        BirdFeederDice.FRUIT,
+        BirdFeederDice.GRAIN_OR_INVETEBRET,
+        BirdFeederDice.FISH
+    ]
 
 @pytest.fixture
 def birdfeeder() -> BirdFeeder:
     ret = BirdFeeder()
-    ret._dice = [BirdFeederDice.FISH, BirdFeederDice.FRUIT, BirdFeederDice.FRUIT, BirdFeederDice.GRAIN_OR_INVETEBRET, BirdFeederDice.FISH]
+    reset_birdfeeder(ret)
     return ret
 
 @pytest.fixture
@@ -31,9 +40,6 @@ def player() -> MockPlayer:
 #     assert Food.INVETEBRATE in possible_food
 #     assert Food.RODENT not in possible_food
 
-def reset_birdfeeder(birdfeeder: BirdFeeder):
-    """Resets the birdfeeder between tests to pre-defined state."""
-    birdfeeder._dice = [BirdFeederDice.FISH, BirdFeederDice.FRUIT, BirdFeederDice.FRUIT, BirdFeederDice.GRAIN_OR_INVETEBRET, BirdFeederDice.FISH]
 
 def test_choose_valid_food(birdfeeder: BirdFeeder, player: MockPlayer):
     """

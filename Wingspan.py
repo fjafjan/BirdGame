@@ -1,11 +1,11 @@
 from typing import List
 from CommandlinePlayer import CommandlinePlayer
+from Deck import Deck
 
 from GameSetup import init_deck, init_food, init_actions
 from Board import Board
 from Player import Player
 from Birdfeeder import BirdFeeder
-# from CommandlinePlayer import CommandlinePlayer
 from Types import Action, Habitat
 
 ## Utility function
@@ -26,6 +26,26 @@ class Wingspan:
         self._deck = init_deck()
         self._players = players
         self._bird_feeder = BirdFeeder()
+
+    # Some getters.
+    def deck(self) -> Deck:
+        """
+        Returns the deck instance which manages the face up and face down bird cards as
+        well as the discard pile.
+        """
+        return self._deck
+
+    def bird_feeder(self) -> BirdFeeder:
+        """
+        Returns the bird feeder which manages the food dice
+        """
+        return self._bird_feeder
+
+    def players(self) -> List[Player]:
+        """
+        Returns a list of all players.
+        """
+        return self._players
 
     def setup(self):
         """
@@ -57,7 +77,8 @@ class Wingspan:
         birds_in_habitat.reverse()
         for bird in birds_in_habitat:
             print(f"Trying to activate {bird.name()}")
-            bird.activate(board, player)
+            # TODO fix this!
+            bird.activate(board=board, player=player, wingspan=self)
 
     def play_bird(self, player: Player, board: Board) -> None:
         """
@@ -72,17 +93,29 @@ class Wingspan:
 
     def gather_food(self, player: Player, board: Board) -> None:
         """
-        Gathers food and activates birds in the habitat.
+        Gathers food and activates birds in the forest habitat.
         """
-        food_dice = player.choose_food_dice(self._bird_feeder.dice(), 1)
-        gained_food = self._bird_feeder.choose_dice(food_dice[0], player)
-        board.gain_food(gained_food)
-        # gained_food = [self._bird_feeder.choose_dice(die, player) for die in food_dice]
-        # [board.gain_food(food) for food in gained_food]
+        active_slot = board.birds_in_habitat(Habitat.FOREST)
+        optional_sacrifice = active_slot % 2 != 0
+        if optional_sacrifice:
+            extra_die = player.choose_sarifice_card_for_food()
+        num_dice = 2 + extra_die + (active_slot // 2)
+        food_dice = player.choose_food_dice(self._bird_feeder.dice(), num_dice)
+        ## TODO re-write this with the nice for loop!
+        for die in food_dice:
+            gained_food = self._bird_feeder.choose_dice(die, player)
+            board.gain_food(gained_food)
         self.activate_birds(player, board, Habitat.FOREST)
 
     def lay_eggs(self, player: Player, board: Board) -> None:
-        num_eggs = 2
+        """
+        Lays eggs and activates birds in the field habitat.
+        """
+        active_slot = board.birds_in_habitat(Habitat.FIELD)
+        optional_sacrifice = active_slot % 2 != 0
+        if optional_sacrifice:
+            extra_egg = player.choose_sacrifice_food_for_egg()
+        num_eggs = 2 + extra_egg + (active_slot // 2)
         for _ in range(num_eggs):
             ## Would be nice if we had the option to lay multiple eggs here realistically.
             eggable_birds = board.eggable_birds()
@@ -91,16 +124,25 @@ class Wingspan:
         self.activate_birds(player, board, Habitat.FIELD)
 
     def draw_cards(self, player: Player, board: Board) -> None:
-        num_cards = 1
-        ## TODO handle drawing more than one card here!
-        chosen_card = player.choose_card_to_draw(self._deck.face_up_cards())
-        # This corresponds to drawing from the deck.
-        if chosen_card == None:
-            board.draw_card(self._deck.draw_cards(1))
-        else:
-            board.draw_card(self._deck.draw_face_up(chosen_card))
+        """
+        Draws cards from the face up birds or from the deck, and activates birds
+        in the ocean habitat.
+        """
+        active_slot = board.birds_in_habitat(Habitat.FIELD)
+        optional_sacrifice = active_slot % 2 != 0
+        if optional_sacrifice:
+            extra_card = player.choose_sacrifice_egg_for_card()
+        num_cards = 2 + extra_card + (active_slot // 2)
+        for _ in range(num_cards):
+            chosen_card = player.choose_card_to_draw(self._deck.face_up_cards())
+            # This corresponds to drawing from the deck.
+            if chosen_card is None:
+                board.draw_card(self._deck.draw_cards(1))
+            else:
+                board.draw_card(self._deck.draw_face_up(chosen_card))
         self.activate_birds(player, board, Habitat.OCEAN)
         ## Refill face up cards at end of turn.
+        ## TODO Move this to an end of turn phase! We can also trigger other things like discarding cards there.
         self._deck.refill_face_up()
 
     def play(self):

@@ -16,12 +16,19 @@ class BirdFeeder:
         self._dice = []
         self._rand = random.Random(time.time())
 
-    def reroll(self):
-        self._dice = [BirdFeederDice(self._rand.randint(0, 5)) for i in range(0,5)]
-        print("Dice are:", self._dice)
-
+    # Some getters
     def dice(self) -> List[BirdFeederDice]:
+        """
+        Returns a list of all the dice in the birdfeeder.
+        """
         return self._dice.copy()
+
+    def reroll(self):
+        """
+        Re-rolls all the dice into the birdfeeder.
+        """
+        self._dice = [BirdFeederDice(self._rand.randint(0, 5)) for i in range(0, 5)]
+        print("Dice are:", self._dice)
 
     @staticmethod
     def birdfeeder_dice_to_foodtype(die: BirdFeederDice) -> Food:
