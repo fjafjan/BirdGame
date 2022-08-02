@@ -11,7 +11,7 @@ Realistically we will want at least 3 types of players.
 4) The remote player. This can be either text based on UI, but performed remotely, i.e. we
    don't know. But if the player implementation is agnostic then it should be fine!
 """
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from Card import Card
 from FoodCost import FoodCost
@@ -60,7 +60,7 @@ class Player:
         """
         pass
 
-    def choose_bird_to_play(self, playable_birds: Dict[Card, Habitat]):
+    def choose_bird_to_play(self, playable_birds: Dict[Card, Habitat]) -> Tuple[Card, Habitat]:
         """
         Choose what playable bird to play.
         """

@@ -3,7 +3,7 @@ The first version of a player, simply using the command line to decide
 which actions to take!
 """
 import sys
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from FoodCost import FoodCost
 
 from Player import Player
@@ -37,7 +37,7 @@ def single_or_multiple_input(options: List) -> List[int]:
     elif len(chosen.split(",")) >= 2 and len(chosen.split(",")) <= len(options):
         ret = {int(i) for i in chosen.split(",")}
     else:
-        self.log("invalid argument")
+        print("invalid argument")
         sys.exit(1)
     return ret
 
@@ -95,8 +95,7 @@ class CommandlinePlayer(Player):
         else:
             raise Exception(f"Invalid choice {chosen_bird}, choose between 0-{len(birds_with_free_capacity)-1}")
 
-    ## TODO add type hints for this return type.
-    def choose_bird_to_play(self, playable_birds: Dict[Card, Habitat]):
+    def choose_bird_to_play(self, playable_birds: Dict[Card, Habitat]) -> Tuple[Card, Habitat]:
         self.log("Select which bird to play: Playable birds are")
         for i, bird in enumerate(playable_birds):
             print(f"#{i} : {bird}")
@@ -115,14 +114,17 @@ class CommandlinePlayer(Player):
         self.log(f"Playing {chosen_bird} in {chosen_habitat}")
         return (chosen_bird, chosen_habitat)
 
-    def choose_food_dice(self, bird_feeder_dice: List[BirdFeederDice], num_dice: int) -> List[BirdFeederDice]:
+    def choose_food_dice(self, dice: List[BirdFeederDice], num_dice: int) -> List[BirdFeederDice]:
+        """
+        Select food dice to collect food from.
+        """
         self.log("Select food dice from the birdfeeder")
         ret = []
         for _ in range(0, num_dice):
-            for index, die in enumerate(bird_feeder_dice):
+            for index, die in enumerate(dice):
                 print(f"#{index}: {die}")
             chosen_die = int(input())
-            ret.append(bird_feeder_dice.pop(chosen_die))
+            ret.append(dice.pop(chosen_die))
         return ret
 
     def choose_food_to_spend(self, available_food: List[Food], cost: FoodCost) -> List[Food]:
@@ -150,6 +152,9 @@ class CommandlinePlayer(Player):
         return Food.GRAIN if chosen_food == 0 else Food.INVETEBRATE
 
     def choose_starting_birds(self, starting_hand: List[Card]) -> List[Card]:
+        """
+        Choose which of five starting birds to keep.
+        """
         self.log("Select what bird/s to keep, e.g. 0,3 or 2.")
         for index, bird_card in enumerate(starting_hand):
             print(f"Bird {index}: {bird_card}")
@@ -175,6 +180,9 @@ class CommandlinePlayer(Player):
         return your_hand
 
     def choose_starting_food(self, starting_food: List[Food], num_food_to_keep: int) -> List[Food]:
+        """
+        Choose which of the five starting foods to keep, depending on the number of birds chosen.
+        """
         if num_food_to_keep == 0:
             print(f"Chose 5 birds, no food left to keep")
             return []

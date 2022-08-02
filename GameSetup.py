@@ -28,7 +28,12 @@ def init_deck() -> Deck:
         Card("American Coot", [Food.ANY, Food.GRAIN], Nest.PLATFORM, [Habitat.OCEAN], 5), # Tuck a card behind this card, if you do draw a card.
         Card("Franklins Gull", [Food.FISH, Food.FISH], Nest.GROUND, [Habitat.OCEAN], 2),
         Card("Larch", [Food.FRUIT], Nest.BOWL, [Habitat.FOREST, Habitat.FIELD], 3),
-        Card("Game Vulture", [], Nest.PLATFORM, [Habitat.ANY], 1)
+        Card("Game Vulture", [], Nest.PLATFORM, [Habitat.ANY], 1),
+        Card("Bald Eagle", [Food.FISH, Food.FISH, Food.FISH], Nest.PLATFORM, [Habitat.OCEAN], 2), # Gain all fish in the birdfeeder
+        Card(""),
+        Card(""),# Pay one wheat/fish to tuck two cards behind this card.
+        Card("Red Sparrow", [Food.FRUIT, Food.FRUIT], Nest.BOWL, [Habitat.FOREST], 4),
+         # Gain 1 Fruit.
     ]
     # cards.extend(gulls)
     # cards.extend(ravens)

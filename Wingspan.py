@@ -8,19 +8,6 @@ from Player import Player
 from Birdfeeder import BirdFeeder
 from Types import Action, Habitat
 
-## Utility function
-# def request_set(input_list: List, message_str: str):
-#     """Asks the user for a number of element from a list."""
-#     for index, item in enumerate(input_list):
-#         print(f"{index}: {item}")
-#     chosen_elements = self.input_function()
-#     selected_elements = set()
-#     if chosen_elements.isdigit():
-#         selected_elements.add(int(chosen_elements))
-#     elif len(chosen_elements.strip().split(",")) >= 2:
-#         selected_elements = {int(i) for i in chosen_elements.split(",")}
-#     return selected_elements
-
 class Wingspan:
     def __init__(self, players: List[Player]):
         self._deck = init_deck()
@@ -87,6 +74,7 @@ class Wingspan:
         playable_birds = board.playable_birds()
         bird, habitat = player.choose_bird_to_play(playable_birds)
         print(f"bird: {bird}, habitat: {habitat}")
+        bird.play() # Activate any 'on play' power.
         board.play_bird(bird, habitat, player)
 
     def gather_food(self, player: Player, board: Board) -> None:
@@ -180,4 +168,3 @@ if __name__ == "__main__":
     game = Wingspan(players)
     game.setup()
     game.play()
-    # initial_board = Board()
