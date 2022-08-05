@@ -40,18 +40,21 @@ class Board:
             Habitat.FOREST : [],
             Habitat.OCEAN : []
         }
-        ## Should rename it from food cost!
-        self._food_tokens = starting_food
-        self._hand = starting_hand
+        self._food_tokens = starting_food.copy()
+        self._hand = starting_hand.copy()
         self._bonus_cards = []
         if (len(self._food_tokens) + len(self._hand)) is not 5:
-            raise Exception(f"""Played should start with 5 total birds cards and food tokens,
+            raise ValueError(f"""Played should start with 5 total birds cards and food tokens,
             not {len(self._food_tokens)} bird cards and {len(self._hand)} food token""")
 
     def gain_food(self, food: Food):
         """
         Adds the given food to our food supply
         """
+        # Note, I will need to change this when adding the expansion that allows nectar
+        # i.e. wildcard food.
+        if food == Food.ANY:
+            raise ValueError("Cannot gain wildcard food!")
         self._food_tokens.append(food)
 
     def draw_card(self, bird_card: Card):
@@ -65,6 +68,18 @@ class Board:
         Adds the bonus card to our hand (separete from bird cards).
         """
         self._bonus_cards.append(bonus_card)
+
+    def lay_egg(self, bird_card: Card):
+        """
+        Lays an egg on a bird card. Will raise an exception if the bird card is not played
+        on this board.
+        """
+        for habitat in self.habitat_slots:
+            if bird_card in self.habitat_slots[habitat]:
+                break
+        else:
+            raise Exception(f"Did not find {bird_card} in any habitat.")
+        bird_card.lay_egg()
 
     def total_eggs(self) -> int:
         """
@@ -93,6 +108,12 @@ class Board:
         Returns a list of bonus cards currently in your hand
         """
         return self._bonus_cards.copy()
+
+    def food_tokens(self) -> List[Food]:
+        """
+        Returns a list of all food tokens currently on your board.
+        """
+        return self._food_tokens.copy()
 
     def playable_birds(self) -> Dict[Card, Habitat]:
         """
@@ -123,7 +144,9 @@ class Board:
         is no room.
         """
         if len(self.habitat_slots[habitat]) + 1 >= MAX_BIRDS_PER_HABITAT:
-            raise Exception(f"Habitat {habitat} is already full!")
+            raise ValueError(f"Habitat {habitat} is already full!")
+        if bird_card not in self._hand:
+            raise KeyError(f"Bird {bird_card} is not in your hand!")
         egg_cost = egg_cost_from_slot(len(self.habitat_slots[habitat]))
         if egg_cost > 0:
             player.choose_eggs_to_spend(egg_cost)
@@ -132,6 +155,8 @@ class Board:
         food_to_pay = player.choose_food_to_spend(self._food_tokens, bird_card.cost())
         for food in food_to_pay:
             self._food_tokens.remove(food)
+        # Remove the card from the hand.
+        self._hand.remove(bird_card)
 
     def eggable_birds(self) -> List[Card]:
         """

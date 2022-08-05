@@ -15,6 +15,7 @@ from Deck import Deck
 def init_deck() -> Deck:
     cards = [
         Card("Pigeon", [Food.GRAIN, Food.GRAIN], Nest.GROUND, [Habitat.ANY], 6), # Lay an egg on any bird.
+        Card("Raven", [Food.ANY, Food.FRUIT], Nest.PLATFORM, [Habitat.ANY], 3), # the worse raven power, i.e. sack one egg, gain 1 food.
         Card("Seagull", [Food.FISH, Food.FISH], Nest.PLATFORM, [Habitat.OCEAN], 4), # Draw an extra card? Pay one egg to draw two cards
         Card("Hummingbird", [Food.FRUIT], Nest.CAVITY, [Habitat.FOREST], 2), # Each player gains 1 dice from the birdfeeder.
         Card("Parkers Owl", [Food.RODENT, Food.INVETEBRATE], Nest.CAVITY, [Habitat.FOREST], 6), # Decide what it does :D
@@ -30,10 +31,8 @@ def init_deck() -> Deck:
         Card("Larch", [Food.FRUIT], Nest.BOWL, [Habitat.FOREST, Habitat.FIELD], 3),
         Card("Game Vulture", [], Nest.PLATFORM, [Habitat.ANY], 1),
         Card("Bald Eagle", [Food.FISH, Food.FISH, Food.FISH], Nest.PLATFORM, [Habitat.OCEAN], 2), # Gain all fish in the birdfeeder
-        Card(""),
-        Card(""),# Pay one wheat/fish to tuck two cards behind this card.
-        Card("Red Sparrow", [Food.FRUIT, Food.FRUIT], Nest.BOWL, [Habitat.FOREST], 4),
-         # Gain 1 Fruit.
+        # Pay one wheat/fish to tuck two cards behind this card.
+        Card("Red Sparrow", [Food.FRUIT, Food.FRUIT], Nest.BOWL, [Habitat.FOREST], 4) # Gain 1 Fruit.
     ]
     # cards.extend(gulls)
     # cards.extend(ravens)
